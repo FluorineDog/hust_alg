@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fontspec}
+\usepackage{listings}
+\setmainfont[Mapping=tex-text]{Source Han Sans CN}
+\begin{document}
+\section{算法分析}
+\begin{itemize}
+	\item 第二题是第三题在$value=1$下的特例.
+	\item 第三题是一个典型的动态规划问题, 其子问题是
+	\item 在各个$end\_time$之前, 能够取到的最大值
+	\item 在$end\_time$取到$max\_end\_time$时, 为所求$max\_value$
+	\item 递推方程为$DP[end\_time] = \max_{t \leq begin\_time}(DP[t]+value, DP[prev(end)]) $
+	\item 递推方程求解$O(N)$次, 每一次为二分查表, 耗时$O(log N)$, 共计$O(N logN)$
+\end{itemize}	
+
+\section{伪代码}
+\begin{enumerate}
+	\item if Problem.No is 2, assign 1.0 to all values
+	\item sort $node(beg, end, value)$ by $end$, increasingly
+	\item let $max = 0$
+	\item for each $node$ 
+	\item \quad if $DP[beg] + value > max$ 
+	\item \qquad update $max \leftarrow DP[beg] + value$
+	\item \qquad insert $DP[end] \leftarrow max$ 
+	\item return $max$
+\end{enumerate}
+\section{代码}
+见 interval\_cover 文件夹内容, 推荐使用cmake编译
+\section{测试样例}
+使用Google Test进行单元测试, 请查看test.cpp 
+(包含一个二进制文件, 有大量测试数据)
+\end{document}
+
+

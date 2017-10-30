@@ -1,6 +1,9 @@
 #include "tiled_cover/tiled_cover.h"
 #include <gtest/gtest.h>
 #include <string>
+#include <cstdio>
+#include <memory>
+
 using std::string;
 TEST(tiled_cover, main) {
   string mat_str[] = {
@@ -86,29 +89,22 @@ TEST(interval_cover, test0) {
   EXPECT_EQ(sum, 7);
 }
 
-// second trial
-#include <algorithm>
-#include <chrono>
-#include <cinttypes>
-#include <cstdio>
-#include <memory>
-#include <utility>
-#include <vector>
-using namespace std;
 
-TEST(interval_cover, test1) {
-  unique_ptr<FILE, decltype(&fclose)> fp{fopen("p3-in-big.dat", "rb"), &fclose};
+TEST(interval_cover, binary_test) {
+  // std::unique_ptr<FILE, decltype(&fclose)> fp{fopen("p3-in-big.dat", "rb"), &fclose};
+  auto fp = fopen("p3-in-big.dat", "rb");
+  ASSERT_TRUE(!!fp) <<  "File Open failed";
   uint32_t n;
-  fread(&n, 4, 1, fp.get());
+  fread(&n, 4, 1, fp);
   vector<Data> data(n);
-  fread(data.data(), 8, 3 * n, fp.get());
+  fread(data.data(), 8, 3 * n, fp);
+  fclose(fp);
   for(int i = 0; i < n; ++i){
     std::swap(std::get<0>(data[i]), std::get<2>(data[i]));
   }
-  auto t1 = chrono::high_resolution_clock::now();
-  int sum = interval_cover(data);
-  auto t2 = chrono::high_resolution_clock::now();
-  auto time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count();
-  cerr << "fake";
-  cerr << sum << "fake" << time << endl;
+  // auto t1 = chrono::high_resolution_clock::now();
+  double sum = interval_cover(data);
+  // auto t2 = chrono::high_resolution_clock::now();
+  // auto time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count();
+  EXPECT_FLOAT_EQ(sum, 72.648146) << "wrong answer";
 }
