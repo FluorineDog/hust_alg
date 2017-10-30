@@ -1,0 +1,1 @@
+add_library(interval_cover interval_cover.cpp)

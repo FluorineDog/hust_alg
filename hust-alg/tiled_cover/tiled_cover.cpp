@@ -129,7 +129,6 @@ bool tiled_cover(const vector<char> &mat, int row_num, int col_num) {
     }
   }
   // cerr << endl;
-
   // for (int i = 0; i < row_num; ++i) {
   //   for (int j = 0; j < col_num; ++j) {
   //     cerr << index(i, j) << "/" << graph[index(i, j)].mate << " ";
