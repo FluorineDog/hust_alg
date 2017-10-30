@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.9)
+add_subdirectory(tiled_cover)
+add_executable(tt test.cpp)
+target_link_libraries(tt tiled_cover)
+target_link_libraries(tt gtest_main gtest)
