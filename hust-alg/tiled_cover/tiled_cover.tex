@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fontspec}
+\usepackage{listings}
+\setmainfont[Mapping=tex-text]{Source Han Sans CN}
+\begin{document}
+\section{算法分析}
+可以划归为二分完美匹配问题: 
+\begin{itemize}
+	\item 将棋盘黑白染色后，黑色格子和白色格子分别作为点的集合. 
+	\item 相邻的格子间有边，作为二分集合间的边
+	\item 覆盖了一黑一白的骨牌，则为选中了的边
+	\item 完全覆盖，即为完全匹配
+\end{itemize}	
+使用匈牙利算法，时间复杂度为$O(V*E) = O(N^2)$
+\section{伪代码}
+\begin{enumerate}
+	\item convert grids to graph
+	\item initialize all edges
+	\item for all unvisted nodes in graph
+	\item \quad breath-first-search along cross-flow
+	\item \qquad if another unvisted node visited then
+	\item \quad \qquad extend cross-flow and stop BFS
+	\item \quad \qquad increase count 
+	\item check if count equals the number of nodes pair
+\end{enumerate}
+\section{代码}
+见 tiled\_cover 文件夹内容, 推荐使用cmake编译
+\section{测试样例}
+使用Google Test进行单元测试, 请查看test.cpp 
+\end{document}
+
