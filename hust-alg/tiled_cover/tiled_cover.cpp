@@ -69,12 +69,10 @@ int breath_first_search(Graph &graph, int source) {
 
 bool tiled_cover(const vector<char> &mat, int row_num, int col_num) {
   auto index = [gap = (col_num | 1)](int i, int j) {
-    // get index
     return i * gap + j;
   };
 
   auto value = [&mat, col_num, row_num](int i, int j) {
-    // get element
     if (i >= row_num || j >= col_num) {
       return '\0';
     } else {
@@ -88,14 +86,12 @@ bool tiled_cover(const vector<char> &mat, int row_num, int col_num) {
       count[(i + j) & 1] += !!value(i, j);
     }
   }
-  // cerr << count[0];
   if (count[0] != count[1]) {
     return false;
   }
   Graph graph(row_num * col_num);
   for (int i = 0; i < row_num; ++i) {
     for (int j = 0; j < col_num; ++j) {
-      // cerr << i << "<>" << j << "?" << (int)value(i, j) << endl;
       if (value(i, j) && value(i, j + 1)) {
         add_edge(graph, index(i, j), index(i, j + 1));
         add_edge(graph, index(i, j + 1), index(i, j));
@@ -106,35 +102,17 @@ bool tiled_cover(const vector<char> &mat, int row_num, int col_num) {
       }
     }
   }
-  // cerr << "begin";
   int sum = 0;
   int old_sum = -1;
   while (sum != old_sum) {
     old_sum = sum;
 
     for (int v = 0; v < graph.size(); ++v) {
-      // cerr << "begin" << v << endl;
       if (v == 7) {
         int a = 1 + 1;
-        // cerr << graph[v].edges << "fuck";
       }
       sum += breath_first_search(graph, v);
-      // for (int i = 0; i < row_num; ++i) {
-      //   for (int j = 0; j < col_num; ++j) {
-      //     cerr << index(i, j) << "/" << graph[index(i, j)].mate << " ";
-      //   }
-      //   cerr << endl;
-      // }
-      // cerr << endl;
     }
   }
-  // cerr << endl;
-  // for (int i = 0; i < row_num; ++i) {
-  //   for (int j = 0; j < col_num; ++j) {
-  //     cerr << index(i, j) << "/" << graph[index(i, j)].mate << " ";
-  //   }
-  //   cerr << endl;
-  // }
-  // cerr << sum << endl;
   return sum == count[0];
 }
